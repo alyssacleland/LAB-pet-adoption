@@ -1,0 +1,34 @@
+body {
+  background-color: blanchedalmond !important;
+}
+
+#app {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  text-align: center;
+  row-gap: 50px;
+  column-gap: 20px;
+}
+
+.cat {
+  background-color: lightblue !important;
+}
+
+.dog {
+  background-color: lightgreen !important;
+}
+
+.dino {
+  background-color: lightsalmon !important;
+}
+
+.all-buttons {
+  text-align: center;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.pet-name {
+  background-color: lightgrey; !important
+}

@@ -241,16 +241,85 @@ const pets = [
     }
   ];
 
+  ////////////////////////////////////////////////////////////////////
+                    //loop//
+////////////////////////////////////////////////////////////////////
+
+
+//setting location
   const targetingApp = document.querySelector("#app");
+
+  //empty string and making fx for filter
+  const cardsOnDom = (array) => { //cards on dom (pets)
+
   let domString = "";
-for (const pet of pets) {
-  //bootstrap card
-  domString+= `<div class="card" style="width: 18rem;">
-    <img src=${pet.imageUrl} class="card-img-top" alt=${pet.name}> 
+
+  //filling in empty string
+for (const pet of array) {
+  domString+= 
+  `<div class="card" style="width: 18rem;">
+
     <div class="card-body">
-      <h5 class="card-title">${pet.name}</h5>
-      <p class="card-text">${pet.specialSkill}</p>
+      <h5 class="pet-name">${pet.name}
+      <img src=${pet.imageUrl} class="card-img-top" alt=${pet.name}> </h5>
+      <p class="pet-color">${pet.color}</p>
+      <p class="pet-skill">${pet.specialSkill}</p>
+      <p class="pet-type">${pet.type}</p>
     </div>
-    </div>`;
+  </div>`;
 };
-targetingApp.innerHTML = domString;
+ targetingApp.innerHTML = domString;
+  }; 
+
+  //make default view all pets
+
+cardsOnDom(pets);
+
+////////////////////////////////////////////////////////////////////
+                    //filter for buttons//
+////////////////////////////////////////////////////////////////////
+
+//1. function to filter by pet type
+const filter = (array, petType) => {
+  const petArray = [];
+
+  for (const member of array) {
+    if (member.type === petType) {
+      petArray.push(member);
+    }
+  }
+
+  return petArray;
+};
+
+
+//2. connect html buttons to js 2
+const allButton = document.querySelector("#all");
+const catButton = document.querySelector("#cat");
+const dogButton = document.querySelector("#dog");
+const dinoButton = document.querySelector("#dino");
+
+
+//3. 1 + 2 use event listener so when they click button, we trigger step 1
+
+//show all button 
+allButton.addEventListener("click", () => {
+cardsOnDom(pets);
+});
+//filter buttons
+  //cat
+catButton.addEventListener("click", () => {
+  const catMembers = filter(pets, "cat");
+  cardsOnDom(catMembers);
+});
+ //dog
+dogButton.addEventListener("click", () => {
+  const dogMembers = filter(pets, "dog");
+  cardsOnDom(dogMembers);
+});
+  //dino
+dinoButton.addEventListener("click", () => {
+    const dinoMembers = filter(pets, "dino");
+    cardsOnDom(dinoMembers);
+  });
+  
