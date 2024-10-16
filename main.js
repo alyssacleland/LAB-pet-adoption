@@ -255,6 +255,7 @@ const pets = [
   let domString = "";
 
   //filling in empty string
+  //includes delete button containing "--" for splitting
 for (const pet of array) {
   domString+= 
   `<div class="card" style="width: 18rem;">
@@ -265,6 +266,8 @@ for (const pet of array) {
       <p class="pet-color">${pet.color}</p>
       <p class="pet-skill">${pet.specialSkill}</p>
       <p class="pet-type">${pet.type}</p>
+  
+      <button class="btn btn-danger" id="delete--${pet.id}">Delete</button>
     </div>
   </div>`;
 };
@@ -323,3 +326,92 @@ dinoButton.addEventListener("click", () => {
     cardsOnDom(dinoMembers);
   });
   
+// ******************** //
+// ****** CREATE ****** //
+// ******************** //
+
+/////////1. Select/target the form on the DOM
+const form = document.querySelector("form");
+
+/////////2. create a function that grabs all the values from the form, pushes the new object to the array, then repaints the DOM with the new teammate
+
+const createPet = (e) => {
+  //preventDefaults prevents the default bx of forms, which is to reload the page when submit form
+  e.preventDefault();
+
+  const newPetObj = {
+    id: pets.length +1,
+    name: document.querySelector("#name").value,
+                            //.value is when there is a user input. In this case it's the form they fill out
+    color: document.querySelector("#color").value,
+    specialSkill: document.querySelector("#specialSkill").value,
+    type: document.querySelector("#type").value,
+    imageUrl: document.querySelector("#image").value
+  };
+
+  pets.push(newPetObj);
+
+  //refresh this website with this added object. and clear the form.
+  cardsOnDom(pets);
+  form.reset();
+};
+
+// 3. Add an event listener for the form submit and pass it the function (callback)
+form.addEventListener("submit", createPet);
+
+
+
+// ******************** //
+// ****** DELETE ****** //
+// ******************** //
+
+
+// Here we will be using event bubbling
+// 1. Target the app div
+// 2. Add an event listener to capture clicks
+// 3. check e.target.id includes "delete"
+// 4. add logic to remove from array
+// 5. Repaint the DOM with the updated array
+// 6. Organize code so that everything is in a function except selectors
+
+// 1. target the app div
+
+const app = document.querySelector("#app");
+
+// 2. add an event listener to capture clicks
+
+//think about 'e' as HERE the click is happening
+app.addEventListener('click', (e) => {
+  //3. check e.target.id includes "delete"
+        //"target" finds that specific delete button (since there are multiple delete buttons)
+        //The includes() method returns true if an array contains a specified value.
+  if (e.target.id.includes("delete")) {
+    //destructuring
+    const [, id] = e.target.id.split("--");
+                          //splits everything before and after the "--" (in the delete button of the interpolated card above) into 2 parts so like X--Y becomes [X, Y]
+                          //from card's delete button: ...id="delete--${member.id}">Delete</button>
+                          // The comma (,) in [, id] is a placeholder, meaning that the first value of the array is ignored. The second value from the array is assigned to the variable id. so basically this assigns the seconds part (whatever is after "--" to const id (so yes it is also declaring const id).)
+
+    // 4. add logic to remove from array
+
+    //find where e.id(the location where we clicked delete) is equal to the index position, and set that equal to the variable 
+    //aka, which index did we click delete? which card's delete button? which object in the pets array?
+    const index = pets.findIndex(e => e.id === Number(id));
+                        //The findIndex() method of Array instances returns the index of the first element in an array that satisfies the provided testing function. 
+                        //Number(id) just makes sure id is converted to a number (if it's not already)
+    pets.splice(index, 1);
+    //removes that index from the pets array
+      //splice can do other stuff. but here it is removing an item from the pets array.... index is the position of the item to remove (in this case, found using findIndex above). 1 is the number of elements to remove, starting from the index.
+
+
+    // 5. Repaint the DOM with the updated array
+    cardsOnDom(pets);           
+  }
+});
+
+const startApp = () => {
+  cardsOnDom(pets);
+  //events(); //ALWAYS LAST *****idk what this means?? ohhh wait. bc none of this stuff will show up until the events (clicks, submit) occur? maybe that's what it means? so this is getting our cards to actually appear when the page first loads?
+};
+
+startApp();

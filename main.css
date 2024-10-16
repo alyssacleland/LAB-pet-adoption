@@ -32,3 +32,11 @@ body {
 .pet-name {
   background-color: lightgrey !important
 }
+
+button {
+  padding: 20px; 
+}
+
+form {
+  margin: 20px;
+}
