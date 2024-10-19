@@ -241,8 +241,10 @@ const pets = [
     }
   ];
 
+////////this is where i could put the utility function. maybe do that later/////////
+
   ////////////////////////////////////////////////////////////////////
-                    //loop//
+      //loop//-to get all the objs from our pets array to cards and into our html
 ////////////////////////////////////////////////////////////////////
 
 
@@ -266,7 +268,7 @@ for (const pet of array) {
       <p class="pet-color">${pet.color}</p>
       <p class="pet-skill">${pet.specialSkill}</p>
       <p class="pet-type">${pet.type}</p>
-  
+
       <button class="btn btn-danger" id="delete--${pet.id}">Delete</button>
     </div>
   </div>`;
@@ -274,15 +276,16 @@ for (const pet of array) {
  targetingApp.innerHTML = domString;
   }; 
 
-  //make default view all pets
+  //make default view all pets. actually we don't need this anymore since we do that at the bottom with the startApp function now. but i'm leaving this here for my understanding
 
-cardsOnDom(pets);
+// cardsOnDom(pets);
 
 ////////////////////////////////////////////////////////////////////
                     //filter for buttons//
 ////////////////////////////////////////////////////////////////////
 
 //1. function to filter by pet type
+//first we create an empty array. next, we're looping through each object in our array, checking if the pet type matches the pet type we are checking (we input that as an argument (as well as the array we're looping thru) when we call this function for each event listener in step 3). and then if those do match, we're pushing that object into the array that we created. last, we return that array (and then in step 3, we assign this return to a const called "whatever that pet type is Members")
 const filter = (array, petType) => {
   const petArray = [];
 
@@ -297,13 +300,15 @@ const filter = (array, petType) => {
 
 
 //2. connect html buttons to js 2
-const allButton = document.querySelector("#all");
-const catButton = document.querySelector("#cat");
-const dogButton = document.querySelector("#dog");
-const dinoButton = document.querySelector("#dino");
+const allButton = document.getElementById("all");
+const catButton = document.getElementById("cat");
+const dogButton = document.getElementById("dog");
+const dinoButton = document.getElementById("dino");
 
 
-//3. 1 + 2 use event listener so when they click button, we trigger step 1
+//3. 1 + 2 use event listener so when they click button, we trigger step 1 (the fx called filter)
+
+//when our "click" event happens on our specific button, we're calling the fx we made in step 1 and inputing a.) our pets array, and b.) the type of pet we want to filter by, as arguments. we assign the result of that function (which will be a return of an array the filtered by type pets) to a variable respectively (e.g., "catMembers"). Last, we call our cardsOnDom function for that variable (or array), so that those cards show up on the website.
 
 //show all button 
 allButton.addEventListener("click", () => {
